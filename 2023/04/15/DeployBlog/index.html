@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="邱海梦旌">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://example.com/2023/04/15/deployblog/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="本篇文章用于记录我是如何将blog从github pages部署到云服务器ECS的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="将我的blog部署在云服务器ECS上">
+<meta property="og:url" content="http://example.com/2023/04/15/DeployBlog/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="本篇文章用于记录我是如何将blog从github pages部署到云服务器ECS的">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_2.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_7.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_8.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_9.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_10.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_11.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_12.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_13.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_14.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_15.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_16.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_17.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_18.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_19.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_20.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_21.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_22.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_23.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_24.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_25.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_26.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_27.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_29.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_30.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_28.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_31.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_32.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_33.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_34.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_35.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_36.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_37.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_38.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_39.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_40.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_41.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_42.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_43.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_44.png">
+<meta property="og:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_45.png">
+<meta property="article:published_time" content="2023-04-15T07:33:22.000Z">
+<meta property="article:modified_time" content="2024-11-10T07:33:23.092Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Hexo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_2.png">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/QiuHaimengjing/ImageStorage/main/blog/ratio.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/QiuHaimengjing/ImageStorage/main/blog/ratio.png">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/QiuHaimengjing/ImageStorage/main/blog/ratio.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            将我的blog部署在云服务器ECS上 | 邱海梦旌
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/assets/build/styles.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+        
+<script src="/js/libs/anime.min.js"></script>
+
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"example.com","root":"/","language":"en","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":true,"custom_message":"我能把你比作夏日吗"},"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/config/KamisatoAyaka.png","dark":"https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/config/saber.png"},"title":"邱海梦旌","subtitle":{"text":["So long as men can breathe or eyes can see, ","So long lives this, and this gives life to thee."],"hitokoto":{"enable":false,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#040404","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":{"github":"https://github.com/QiuHaimengjing","instagram":null,"zhihu":null,"twitter":null,"email":"qqdas522@gmail.com"},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":true},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":true,"version":"9.3.0"}},"version":"2.7.3","navbar":{"auto_hide":false,"color":{"left":"#ded6dd","right":"#367df7","transparency":99},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Photos":{"icon":"fa-solid fa-image","path":"/masonry/"},"About":{"icon":"fa-regular fa-user","submenus":{"Me":"/about","Github":"https://github.com/QiuHaimengjing"}},"Friends":{"icon":"fa-solid fa-link","path":"/links/"}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":{"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2024/10/19 00:00:00"};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.data = {"masonry":true};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+<!--        <span class="swup-progress-icon">-->
+<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+<!--        </span>-->
+    
+</div>
+
+
+
+    <style>
+    :root {
+        --preloader-background-color: #fff;
+        --preloader-text-color: #000;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --preloader-background-color: #202124;
+            --preloader-text-color: #fff;
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root {
+            --preloader-background-color: #fff;
+            --preloader-text-color: #000;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .ml13 {
+            font-size: 2.6rem !important; /* Adjust this value as needed */
+        }
+    }
+
+    .preloader {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem; /* Tailwind 'gap-4' is 1rem */
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        padding: 12px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh; /* 'h-screen' is 100% of the viewport height */
+        background-color: var(--preloader-background-color);
+        z-index: 1100; /* 'z-[1100]' sets the z-index */
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .ml13 {
+        font-size: 3.2rem;
+        /* text-transform: uppercase; */
+        color: var(--preloader-text-color);
+        letter-spacing: -1px;
+        font-weight: 500;
+        font-family: 'Chillax-Variable', sans-serif;
+        text-align: center;
+    }
+
+    .ml13 .word {
+        display: inline-flex;
+        flex-wrap: wrap;
+        white-space: nowrap;
+    }
+
+    .ml13 .letter {
+        display: inline-block;
+        line-height: 1em;
+    }
+</style>
+
+<div class="preloader">
+    <h2 class="ml13">
+        我能把你比作夏日吗
+    </h2>
+    <script>
+        var textWrapper = document.querySelector('.ml13');
+        // Split text into words
+        var words = textWrapper.textContent.trim().split(' ');
+
+        // Clear the existing content
+        textWrapper.innerHTML = '';
+
+        // Wrap each word and its letters in spans
+        words.forEach(function(word) {
+            var wordSpan = document.createElement('span');
+            wordSpan.classList.add('word');
+            wordSpan.innerHTML = word.replace(/\S/g, "<span class='letter'>$&</span>");
+            textWrapper.appendChild(wordSpan);
+            textWrapper.appendChild(document.createTextNode(' ')); // Add space between words
+        });
+
+        var animation = anime.timeline({ loop: true })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [20, 0],
+                translateZ: 0,
+                opacity: [0, 1],
+                filter: ['blur(5px)', 'blur(0px)'],
+                easing: "easeOutExpo",
+                duration: 1200,
+                delay: (el, i) => 300 + 20 * i,
+            })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [0, -20],
+                opacity: [1, 0],
+                filter: ['blur(0px)', 'blur(5px)'],
+                easing: "easeInExpo",
+                duration: 1000,
+                delay: (el, i) => 15 * i,
+                complete: function() {
+                    hidePreloader();
+                }
+            }, '-=700');
+
+
+        let themeStatus = JSON.parse(localStorage.getItem('REDEFINE-THEME-STATUS'))?.isDark;
+
+        // If the theme status is not found in local storage, check the preferred color scheme
+        if (themeStatus === undefined || themeStatus === null) {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                themeStatus = 'dark';
+            } else {
+                themeStatus = 'light';
+            }
+        }
+
+        // Now you can use the themeStatus variable in your code
+        if (themeStatus) {
+            document.documentElement.style.setProperty('--preloader-background-color', '#202124');
+            document.documentElement.style.setProperty('--preloader-text-color', '#fff');
+        } else {
+            document.documentElement.style.setProperty('--preloader-background-color', '#fff');
+            document.documentElement.style.setProperty('--preloader-text-color', '#000');
+        }
+
+        window.addEventListener('load', function () {
+            setTimeout(hidePreloader, 5000); // Call hidePreloader after 5000 milliseconds if not already called by animation
+        });
+
+        function hidePreloader() {
+            var preloader = document.querySelector('.preloader');
+            preloader.style.opacity = '0';
+            setTimeout(function () {
+                preloader.style.display = 'none';
+            }, 200);
+        }
+    </script>
+</div>
+
+<main class="page-container" id="swup">
+
+    
+
+    <div class="main-content-container flex flex-col justify-between min-h-dvh">
+
+
+        <div class="main-content-header">
+            <header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+                <a class="logo-image h-8 w-8 sm:w-10 sm:h-10 mr-3" href="/">
+                    <img src="https://raw.githubusercontent.com/QiuHaimengjing/ImageStorage/main/blog/ratio.png" class="w-full h-full rounded-sm">
+                </a>
+            
+            <a class="logo-title" href="/">
+                
+                邱海梦旌
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/masonry/"
+                                        >
+                                    <i class="fa-solid fa-image fa-fw"></i>
+                                    PHOTOS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown"
+                                   href="#"
+                                        onClick=&#34;return false;&#34;>
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    <i class="fa-solid fa-chevron-down fa-fw"></i>
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                        
+                                            <li>
+                                                <a href="/about">
+                                                    ME
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a target="_blank" rel="noopener" href="https://github.com/QiuHaimengjing">
+                                                    GITHUB
+                                                </a>
+                                            </li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/links/"
+                                        >
+                                    <i class="fa-solid fa-link fa-fw"></i>
+                                    FRIENDS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/masonry/"
+                        >
+                            <span>
+                                PHOTOS
+                            </span>
+                            
+                                <i class="fa-solid fa-image fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item-sub text-base my-1.5 flex flex-col w-full">
+                        
+                        <div class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary cursor-pointer text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                             navbar-data-toggle="submenu-About"
+                        >
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-solid fa-chevron-right fa-sm fa-fw transition-all"></i>
+                            
+                        </div>
+                        
+
+                        
+                            <div class="flex-col items-start px-2 py-2 hidden" data-target="submenu-About">
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/about">ME</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           target="_blank" rel="noopener" href="https://github.com/QiuHaimengjing">GITHUB</a>
+                                    </div>
+                                
+                            </div>
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/links/"
+                        >
+                            <span>
+                                FRIENDS
+                            </span>
+                            
+                                <i class="fa-solid fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/archives"
+                        >
+                            <span>Archives</span>
+                            <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/tags"
+                        >
+                            <span>Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/categories"
+                        >
+                            <span>Categories</span>
+                            <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">10</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">8</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">4</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="post-page-container flex relative justify-between box-border w-full h-full">
+    <div class="article-content-container">
+
+        <div class="article-title relative w-full">
+            
+                
+                
+                <img src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_1.jpg" alt="将我的blog部署在云服务器ECS上" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75"/>
+                
+                <div class="w-full flex items-center absolute bottom-0 justify-start">
+                    <h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">将我的blog部署在云服务器ECS上</h1>
+                </div>
+            
+            </div>
+
+        
+            <div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+                <div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+                    <img src="https://raw.githubusercontent.com/QiuHaimengjing/ImageStorage/main/blog/veritas-ratio.png">
+                </div>
+                <div class="info flex flex-col justify-between">
+                    <div class="author flex items-center">
+                        <span class="name text-default-text-color text-lg font-semibold">邱海梦旌</span>
+                        
+                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv1</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-04-15 15:33:22</span>
+        <span class="mobile">2023-04-15 15:33:22</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2024-11-10 15:33:23</span>
+            <span class="mobile">2024-11-10 15:33:23</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E9%A1%B9%E7%9B%AE/">项目</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Hexo/">Hexo</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>4.7k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>18 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        
+
+
+        <div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+            <h1 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h1><p>这次的网站部署工作还挺不容易的，是一次非常新奇的尝试，从此刻执笔写下这篇文章开始，我已经意识到这将是一个漫长的过程，也说明本篇的内容很长，对于我或是读者来说都是一段漫长的征途了。  </p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_2.png"
+                      alt="网站主页" title="网站主页"
+                >  </p>
+<p>早在一年前我就搭建好了我的blog，并且购买并配置了域名，那时候我的blog一直都是在GitHub Pages上的，但是访问速度实在太慢，于是想到把blog部署到国内的服务器上，本篇文章记录的正是这个部署的过程。</p>
+<h1 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h1><p>那首先我得有一台国内的服务器，因此我购买了一台云服务器ECS。</p>
+<blockquote>
+<p>服务器的操作系统是<strong>CentOS  7.9 64位</strong></p>
+</blockquote>
+<p>之后配置服务器的过程，因为不同的操作系统命令会有区别，还请读者根据自己的操作系统查询命令。</p>
+<h1 id="安装MATE桌面环境"><a href="#安装MATE桌面环境" class="headerlink" title="安装MATE桌面环境"></a>安装MATE桌面环境</h1><p><strong>这个环节是非必要的，读者可跳过，这只是我熟悉服务器的一个小过程。</strong>  </p>
+<p>1.执行以下命令，更新系统的软件包  </p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y upgrade</span><br></pre></td></tr></table></figure></div>
+
+<p>2.依次执行以下命令，安装MATE桌面环境<br><strong>之后会出现一些提示，都让他通过就行</strong></p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum groups install &quot;X Window System&quot;</span><br><span class="line">yum groups install &quot;MATE Desktop&quot;</span><br></pre></td></tr></table></figure></div>
+
+<p>3.设置默认使用图形化桌面环境启动实例</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl set-default graphical.target</span><br></pre></td></tr></table></figure></div>
+
+
+<p>4.执行以下命令重启ECS实例，也可以在控制台手动重启</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reboot</span><br></pre></td></tr></table></figure></div>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_7.png"
+                      alt="控制台重启ECS" title="控制台重启ECS"
+                ></p>
+<p>5.之后通过ECS管理控制台的VNC连接实例就可以进入到图形界面<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_8.png"
+                      alt="VNC连接ECS" title="VNC连接ECS"
+                ><br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_9.png"
+                      alt="图形界面" title="图形界面"
+                ></p>
+<p>更多的详细过程可参考阿里云的文档：<br><a class="link"   target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/41227.html" >如何在Linux系统的ECS实例中安装图形界面 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h1 id="安装Git"><a href="#安装Git" class="headerlink" title="安装Git"></a>安装Git</h1><blockquote>
+<p>Git 是分布式版本控制系统，有了它我们能很容易地进行主机与服务器的同步  </p>
+</blockquote>
+<p>1.首先查看服务器上是否有安装Git</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git --version</span><br></pre></td></tr></table></figure></div>
+
+<p>2.执行以下命令安装Git</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install git</span><br></pre></td></tr></table></figure></div>
+<p>之后碰到提示直接输入y通过。安装完成会出现<strong>Complete!</strong>  </p>
+<p>3.执行以下命令创建一个Git用户</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd git</span><br></pre></td></tr></table></figure></div>
+
+<p>4.设置Git账户的密码</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">passwd git</span><br></pre></td></tr></table></figure></div>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_10.png"
+                      alt="设置Git账户和密码" title="设置Git账户和密码"
+                ></p>
+<h1 id="配置ssh"><a href="#配置ssh" class="headerlink" title="配置ssh"></a>配置ssh</h1><blockquote>
+<p>要想实现主机和服务器的Git连接，我们需要给到服务器我们主机的密钥</p>
+</blockquote>
+<p>首先主机上要安装Git，主机Git的安装过程在此略过……<br>之前我一直都用着Git，所以已经配置过ssh，但为了温故而知新，咱们从头再来配置一遍。</p>
+<h2 id="生成ssh"><a href="#生成ssh" class="headerlink" title="生成ssh"></a>生成ssh</h2><p>1.我们在<strong>Desktop右键选择Git Bash Here</strong>，然后输入命令，引号内为你的Git用户名</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &#x27;用户名&#x27;</span><br></pre></td></tr></table></figure></div>
+
+<p>2.输入邮箱</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.email &#x27;邮箱&#x27;</span><br></pre></td></tr></table></figure></div>
+<p>然后可以输入以下命令确认下账户</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --list</span><br></pre></td></tr></table></figure></div>
+
+<p>3.输入以下命令生成ssh，遇到暂停输入的情况就按下回车</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;邮箱&quot;</span><br></pre></td></tr></table></figure></div>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_11.png"
+                      alt="配置ssh" title="配置ssh"
+                ><br><code>之后可以在C:\Users\用户名\.ssh目录下看到ssh</code></p>
+<h2 id="更新Github的SSHkey"><a href="#更新Github的SSHkey" class="headerlink" title="更新Github的SSHkey"></a>更新Github的SSHkey</h2><p><strong>因为这里我们的ssh变了，所以Github上的ssh也应该重新设置下</strong>  </p>
+<p>登录Github，点击个人头像中的Settings，找到SSH and GPG keys，删除原来的SSH Keys，建立新的SSH Keys  </p>
+<p><strong>在ssh目录下找到id_rsa.pub</strong>，拷贝其中内容到GithubSSHkey中<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_12.png"
+                      alt="Github的SSH keys" title="Github的SSH keys"
+                ></p>
+<p>OK，之后我们在使用Git管理你的Github仓库时就不会出问题了。</p>
+<h2 id="将公钥给服务器"><a href="#将公钥给服务器" class="headerlink" title="将公钥给服务器"></a>将公钥给服务器</h2><p>将公钥给到服务器，在ssh目录下右键选择Git Bash Here，输入以下命令</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-copy-id -i id_rsa.pub git@服务器IP地址</span><br></pre></td></tr></table></figure></div>
+<blockquote>
+<p>注：服务器IP地址为公网IP地址</p>
+</blockquote>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_13.png"
+                      alt="将公钥给服务器" title="将公钥给服务器"
+                ></p>
+<p>好的，到这里我们的ssh全部完成，让我们回到服务器上。</p>
+<h1 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h1><blockquote>
+<p>Nginx是一个高性能的HTTP和反向代理服务器，我选择使用Nginx来作为web服务器。</p>
+</blockquote>
+<h2 id="安装Nginx"><a href="#安装Nginx" class="headerlink" title="安装Nginx"></a>安装Nginx</h2><p>1.执行以下命令安装Nginx，版本我选择了1.20.2</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://nginx.org/download/nginx-1.20.2.tar.gz</span><br></pre></td></tr></table></figure></div>
+
+<p>2.安装依赖</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install gcc pcre-devel zlib-devel openssl openssl-devel</span><br></pre></td></tr></table></figure></div>
+
+<p>3.上一步完成后，解压依赖</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf nginx-1.20.2.tar.gz</span><br></pre></td></tr></table></figure></div>
+
+<p>4.解压后进行配置，依次输入以下命令</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd nginx-1.20.2</span><br><span class="line">./configure</span><br></pre></td></tr></table></figure></div>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_14.png"
+                      alt="配置Nginx" title="配置Nginx"
+                ><br>之后再依次输入以下命令</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure></div>
+<p>到此Nginx就安装好了。</p>
+<h2 id="运行Nginx及欢迎页面问题"><a href="#运行Nginx及欢迎页面问题" class="headerlink" title="运行Nginx及欢迎页面问题"></a>运行Nginx及欢迎页面问题</h2><p>进入到nginx文件夹下的sbin目录启动nginx，依次执行以下命令</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/nginx/sbin</span><br><span class="line">./nginx</span><br></pre></td></tr></table></figure></div>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_15.png"
+                      alt="运行Nginx" title="运行Nginx"
+                ></p>
+<p>之后在浏览器输入服务器的公网IP地址，就会出现Nginx的欢迎页面  </p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_16.png"
+                      alt="Nginx欢迎页面" title="Nginx欢迎页面"
+                ></p>
+<p>也有可能出现CentOS的欢迎页面  </p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_17.png"
+                      alt="CentOS欢迎页面" title="CentOS欢迎页面"
+                ></p>
+<p><strong>关于出现Nginx或CentOS页面的问题，我当时在这卡了一段时间，因为我格式化过服务器，第一次安装Nginx时出现的是Nginx的欢迎页面，第二次安装Nginx就出现了CentOS的欢迎页面，我就以为Nginx没安装成功，但是查看Nginx的确实在运行，于是找了下问题所在：</strong></p>
+<blockquote>
+<p>检查了阿里云的安全组策略，Nginx的安装步骤，都没有发现问题，安装Nginx时阅读nginx.conf配置文件会发现欢迎页index.html文件路径。找到上面路径下的html文件，通过阅读发现这就是CentOS欢迎页面显示的内容，这证明安装Nginx的欢迎页已经不是Nginx欢迎页面了，所以我们的Nginx安装是完全正确的，只是显示页面改变了。</p>
+</blockquote>
+<h2 id="Nginx页面无法访问和服务器防火墙问题"><a href="#Nginx页面无法访问和服务器防火墙问题" class="headerlink" title="Nginx页面无法访问和服务器防火墙问题"></a>Nginx页面无法访问和服务器防火墙问题</h2><p>在面对防火墙之前，我们找到服务器的网络安全组，看一看有没有开放<strong>80端口</strong>，没有的话要添加一个。<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_18.png"
+                      alt="开放80端口" title="开放80端口"
+                ></p>
+<p>然后我们回到服务器。  </p>
+<p>1.查看防火墙状态</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --state</span><br></pre></td></tr></table></figure></div>
+<p>如果没有运行，执行以下命令运行起来</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start firewalld.service</span><br></pre></td></tr></table></figure></div>
+<p>再次查看防火墙的状态会显示 <code>running</code>  </p>
+<p>2.依次执行以下命令，手动开放80端口</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -I INPUT -p tcp --dport 80 -j ACCEPT</span><br><span class="line">firewall-cmd --permanent --add-port=80/tcp</span><br></pre></td></tr></table></figure></div>
+<p>出现<code>success</code><br>至此问题解决，可以正常访问Nginx欢迎页面。</p>
+<h1 id="创建blog仓库和部署"><a href="#创建blog仓库和部署" class="headerlink" title="创建blog仓库和部署"></a>创建blog仓库和部署</h1><p>到这一步可以说是万事俱备，只欠东风了，现在我们需要进行：  </p>
+<ol>
+<li>新建仓库用来存放网站的内容</li>
+<li>提交后把内容自动同步到站点目录</li>
+</ol>
+<h2 id="创建仓库"><a href="#创建仓库" class="headerlink" title="创建仓库"></a>创建仓库</h2><p>1.依次执行以下命令进入git目录，新建一个仓库</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /home/git</span><br><span class="line">git init --bare blog.git</span><br></pre></td></tr></table></figure></div>
+
+<p>2.进入hooks文件夹</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd blog.git/</span><br><span class="line">cd hooks/</span><br></pre></td></tr></table></figure></div>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_19.png"
+                      alt="创建仓库" title="创建仓库"
+                ></p>
+<h2 id="hooks"><a href="#hooks" class="headerlink" title="hooks"></a>hooks</h2><p><strong>Git 钩子：Git 钩子是每次在 Git 存储库中发生特定事件时自动运行的脚本。它们允许您自定义 Git 的内部行为，并在开发生命周期的关键点触发可自定义的操作。</strong></p>
+<ul>
+<li>Git 钩子(hooks)是在 Git 仓库中特定事件(certain points)触发后被调用的脚本。</li>
+<li>通过钩子可以自定义 Git 内部的相关（如 git push）行为，关键点（如 git push）触发自定义的行为。</li>
+<li>Git 含有两种类型的钩子：客户端的和服务器端。</li>
+<li>客户端钩子由诸如提交和合并这样的操作所调用，而服务器端钩子作用于接收部署提交的代码。实现服务器和本地的git互通。</li>
+</ul>
+<p>Git 钩子存在于每个 Git 仓库的 .git&#x2F;hooks 目录中。<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_20.png"
+                      alt="Git 钩子" title="Git 钩子"
+                ></p>
+<p>1.编写post-receive脚本</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi post-receive</span><br></pre></td></tr></table></figure></div>
+<p>输入i进入INSERT模式，内容如下</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">#nginx下html文件夹目录</span><br><span class="line">DIR=/usr/local/naginx/html</span><br><span class="line">git --work-tree=$&#123;DIR&#125; clean -fd</span><br><span class="line">#直接强制检出</span><br><span class="line">git --work-tree=$&#123;DIR&#125; checkout --force</span><br></pre></td></tr></table></figure></div>
+<p>写好后ESC退出INSERT模式，:wq保存退出</p>
+<p>2.授予运行权限</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x post-receive</span><br></pre></td></tr></table></figure></div>
+
+<p>3.授予git用户</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R git post-receive</span><br></pre></td></tr></table></figure></div>
+
+<p>4.给到一个读写的最高权限</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 777 post-receive</span><br></pre></td></tr></table></figure></div>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_21.png"
+                     
+                ></p>
+<p>5.回到git目录下，给仓库同样的操作</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /home/git</span><br><span class="line">chmod 777 blog.git/</span><br><span class="line">chown -R git blog.git/</span><br></pre></td></tr></table></figure></div>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_22.png"
+                     
+                ></p>
+<p>6.被同步的目录也需要授予最高权限和git用户</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/nginx</span><br><span class="line">chmod 777 html/</span><br><span class="line">chown -R git html/</span><br></pre></td></tr></table></figure></div>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_23.png"
+                     
+                ></p>
+<h2 id="hexo配置"><a href="#hexo配置" class="headerlink" title="hexo配置"></a>hexo配置</h2><p>打开hexo的主配置文件，添加deploy仓库</p>
+<div class="highlight-container" data-rel="Yml"><figure class="iseeu highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr">repo:</span> <span class="string">git@服务器IP地址:/home/git/blog.git</span></span><br><span class="line"><span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure></div>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_24.png"
+                     
+                ></p>
+<h2 id="同步到服务器"><a href="#同步到服务器" class="headerlink" title="同步到服务器"></a>同步到服务器</h2><p>在本地blog文件夹下Git Bash Here，执行以下命令</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure></div>
+<p>完成后，输入服务器的IP地址就可以访问到网站了。  </p>
+<p>可以检查下服务器上是否有我们的博客文件</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/nginx/html</span><br><span class="line">ls</span><br></pre></td></tr></table></figure></div>
+<p>检查无误就大功告成了。</p>
+<h1 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a>域名解析</h1><p>这一步是让我的域名绑定服务器，绑定之后就能以域名访问网站了。这一步很简单，只需要添加域名解析就行。  </p>
+<p><strong>这里添加两个记录：www和@，记录值都是服务器的IP地址</strong><br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_25.png"
+                      alt="域名解析" title="域名解析"
+                ></p>
+<h1 id="SSL证书"><a href="#SSL证书" class="headerlink" title="SSL证书"></a>SSL证书</h1><blockquote>
+<p>SSL 证书就是遵守 SSL 安全套接层协议的服务器数字证书。而 SSL 安全协议最初是由美国网景 Netscape Communication 公司设计开发的,全称为:安全套接层协议 (Secure Sockets Layer) , 它指定了在应用程序协议(如 HTTP、Telnet、FTP)和 TCP&#x2F;IP 之间提供数据安全性 分层的机制,它是在传输通信协议(TCP&#x2F;IP)上实现的一种安全协议,采用公开密钥技术,它为 TCP&#x2F;IP 连接提供数据加密、服务器认证、消息完整性以及可选的客户机认证。由于此协议很好地解决了互联网明文传输的不安全问题,很快得到了业界的支持,并已经成为国际标准。SSL 证书由浏览器中“受信任的根证书颁发机构”在验证服务器身份后颁发,实现网站身份验证和加密传输功能。</p>
+</blockquote>
+<p>装载SSL证书产品后自动激活浏览器中显示“锁”型安全标志，地址栏以“https”开头。</p>
+<h2 id="获取SSL证书"><a href="#获取SSL证书" class="headerlink" title="获取SSL证书"></a>获取SSL证书</h2><p>获取的方式挺多，可以购买，也可以免费获取，我的证书是领的阿里云免费给的20张证书。<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_26.png"
+                      alt="免费的SSL证书" title="免费的SSL证书"
+                ></p>
+<h2 id="下载SSL证书"><a href="#下载SSL证书" class="headerlink" title="下载SSL证书"></a>下载SSL证书</h2><p>点击证书栏右侧“下载”，找到服务器类型Nginx下载。<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_27.png"
+                      alt="下载SSL证书" title="下载SSL证书"
+                ></p>
+<h2 id="传输到服务器"><a href="#传输到服务器" class="headerlink" title="传输到服务器"></a>传输到服务器</h2><p>下载后的证书是一个压缩包，解压后会有两个文件：**.key和.pem**  </p>
+<p>这里可以解压后传输到服务器，也可以把压缩包直接传输到服务器，但是需要在服务器上解压，所以服务器需要安装ZIP解压软件。这里我选择先解压再传输到服务器。  </p>
+<p>安装unzip</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install unzip</span><br></pre></td></tr></table></figure></div>
+
+<p>1.在Nginx根目录下conf文件夹下创建存放证书的目录cert</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/nginx/conf</span><br><span class="line">mkdir cert</span><br></pre></td></tr></table></figure></div>
+
+<p>这里我选择先解压再传输到服务器。</p>
+<p>2.在ECS控制台发送.key和.pem文件，目标路径为</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/conf/cert/</span><br></pre></td></tr></table></figure></div>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_29.png"
+                     
+                ></p>
+<p>上传成功后，进入cert文件夹可以看到存在这两个文件了<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_30.png"
+                     
+                ></p>
+<h2 id="修改-server"><a href="#修改-server" class="headerlink" title="修改 server"></a>修改 server</h2><p>1..返回conf文件夹编辑Nginx配置文件nginx.conf，修改与证书相关的配置，目的是打开443端口。</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim nginx.conf</span><br></pre></td></tr></table></figure></div>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_28.png"
+                     
+                ></p>
+<p>2.找到HTTPS server，<strong>将其内容解注释并修改</strong>。  </p>
+<p>以下步骤含错误示范，还请读者不要着急模仿，可以先去下面看一眼“<strong>重启失败解决方案</strong>”的内容，方便之后一步到位。  </p>
+<p>当然也可以跟着我的步骤来，之后修改错误。</p>
+<p>原来的HTTPS server内容</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"># HTTPS server</span><br><span class="line">#</span><br><span class="line"># server &#123;</span><br><span class="line">#     listen       443 ssl;</span><br><span class="line">#     server_name  localhost;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#     ssl_certificate      cert.pem;</span><br><span class="line">#     ssl_certificate_key  cert.key;</span><br><span class="line"></span><br><span class="line">#     ssl_session_cache    shared:SSL:1m;</span><br><span class="line">#     ssl_session_timeout  5m;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#     ssl_ciphers HIGH:!aNULL:!MD5;</span><br><span class="line">#     ssl_prefer_server_ciphers  on;</span><br><span class="line"></span><br><span class="line">#     location / &#123;</span><br><span class="line">#         root   html;</span><br><span class="line">#         index  index.html index.htm;</span><br><span class="line">#     &#125;</span><br><span class="line">#&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>修改后的HTTPS server</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">HTTPS server</span><br><span class="line">   </span><br><span class="line">server &#123;</span><br><span class="line">    #HTTPS的默认访问端口为443</span><br><span class="line">    #如果未在此处配置HTTPS的默认访问端口，可能会造成Nginx无法启动</span><br><span class="line">    #如果使用Nginx 1.15.0及以上版本，请使用listen 443 ssl 代替listen 443和ssl on</span><br><span class="line">    listen       443 ssl;</span><br><span class="line">    #填写证书绑定的域名</span><br><span class="line">    server_name  www.invictusqiu.com;</span><br><span class="line">    root html;</span><br><span class="line">    index index.html index.htm;</span><br><span class="line"></span><br><span class="line">    #填写证书文件名称</span><br><span class="line">    ssl_certificate      cert/9575407_www.invictusqiu.com.pem;</span><br><span class="line">    ssl_certificate_key  cert/9575407_www.invictusqiu.com.key;</span><br><span class="line"></span><br><span class="line">    ssl_session_timeout  5m;</span><br><span class="line"></span><br><span class="line">    #表示使用的加密套件的类型</span><br><span class="line">    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;</span><br><span class="line">    #表示使用的TLS协议的类型，需要自行评估是否配置TLSv1.1协议</span><br><span class="line">    ssl_protocols TLSv1.1 TLSv1.2 TLSv1.3;</span><br><span class="line"></span><br><span class="line">    ssl_prefer_server_ciphers  on;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">    #Web网站程序存放目录</span><br><span class="line">        root   html;</span><br><span class="line">        index  index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>3.修改80端口server的内容</p>
+<p>原来80端口的server</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  localhost;</span><br><span class="line"></span><br><span class="line">    #charset koi8-r;</span><br><span class="line"></span><br><span class="line">    #access_log  logs/host.access.log  main;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        root   html;</span><br><span class="line">        index  index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    #error_page  404              /404.html;</span><br><span class="line"></span><br><span class="line">    # redirect server error pages to the static page /50x.html</span><br><span class="line">    #</span><br><span class="line">    error_page   500 502 503 504  /50x.html;</span><br><span class="line">    location = /50x.html &#123;</span><br><span class="line">        root   html;</span><br><span class="line">    &#125;</span><br><span class="line">    #后面内容可忽略</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<p>修改后的80端口server</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen       80;</span><br><span class="line">    #填写证书绑定的域名</span><br><span class="line">    server_name  www.invictusqiu.com;</span><br><span class="line">    #将所有HTTP请求通过rewrite指令重定向到HTTPS。</span><br><span class="line">    rewrite ^(.*)$ https://$host$1;</span><br><span class="line"></span><br><span class="line">    #charset koi8-r;</span><br><span class="line"></span><br><span class="line">    #access_log  logs/host.access.log  main;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        index  index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    #error_page  404              /404.html;</span><br><span class="line"></span><br><span class="line">    # redirect server error pages to the static page /50x.html</span><br><span class="line">    #</span><br><span class="line">    error_page   500 502 503 504  /50x.html;</span><br><span class="line">    location = /50x.html &#123;</span><br><span class="line">        root   html;</span><br><span class="line">    &#125;</span><br><span class="line">    #后面内容可忽略</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>服务器界面展示：<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_31.png"
+                      alt="443端口原来的server" title="443端口原来的server"
+                ><br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_32.png"
+                      alt="443端口现在的server" title="443端口现在的server"
+                ><br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_33.png"
+                      alt="80端口原来的server" title="80端口原来的server"
+                ><br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_34.png"
+                      alt="80端口现在的server" title="80端口现在的server"
+                ></p>
+<p><strong>修改完成后保存退出</strong></p>
+<h2 id="重启Nginx服务"><a href="#重启Nginx服务" class="headerlink" title="重启Nginx服务"></a>重启Nginx服务</h2><p>来到nginx的sbin目录执行重启命令</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/nginx/sbin</span><br><span class="line">./nginx -s reload</span><br></pre></td></tr></table></figure></div>
+
+<p>发现报错：<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_35.png"
+                      alt="重启错误" title="重启错误"
+                ></p>
+<h2 id="重启失败解决方案"><a href="#重启失败解决方案" class="headerlink" title="重启失败解决方案"></a>重启失败解决方案</h2><p>好的，不论是跳转来这一步的朋友，还是跟着我步骤的朋友，<strong>现在看一看nginx.conf文件443端口那里的HTTPS server是不是注释掉的。</strong></p>
+<p>也就是如下</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># HTTPS server</span><br><span class="line"></span><br><span class="line"> server &#123;</span><br><span class="line">     listen       443 ssl;</span><br><span class="line">     server_name  localhost;</span><br></pre></td></tr></table></figure></div>
+<p><strong>还没修改server的朋友请注意不要将HTTPS server解注释。</strong>  </p>
+<p><strong>已经跟着我走的朋友请回去将其注释掉</strong>。  </p>
+<p>之后再次重启Nginx服务就成功了。</p>
+<h2 id="重启失败解决方案第二版"><a href="#重启失败解决方案第二版" class="headerlink" title="重启失败解决方案第二版"></a>重启失败解决方案第二版</h2><p>为什么有第二版解决方案呢，这版解决方案是针对：<br><strong>由于我们未装SSL模块，启动时，会提示nginx:[emerg]unknown directive ssl错误</strong>  </p>
+<p>因为我是先遇到第一版错误，不知道错哪了，查资料时干脆把这一版的解决方案先做了，到最后发现我并未存在此版错误，但我认为还是有必要提一下的。  </p>
+<p><strong>如果未做该版解决方案的朋友你跟着我前面的步骤很顺利的重启了，那么你可以跳过此小节到“放行443端口”。</strong>  </p>
+<p>好的，让我们看看这一错误该怎么解决。</p>
+<p>先执行<code>cd ~</code>  </p>
+<p>1.检查你是否安装了ssl模块</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/nginx</span><br><span class="line">./sbin/nginx -V</span><br></pre></td></tr></table></figure></div>
+<p>如下图所示显示已经安装ssl模块则证明你不存在此版错误。<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_36.png"
+                      alt="存在ssl模块" title="存在ssl模块"
+                ></p>
+<p>2.如果没有ssl模块，我们先来到Nginx的解压目录，跟着我的步骤走的朋友路径如下，其他的朋友可能你的解压目录在&#x2F;usr&#x2F;local&#x2F;nginx-1.20.2</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">cd /root/nginx-1.20.2</span><br></pre></td></tr></table></figure></div>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_37.png"
+                     
+                ></p>
+<p>3.添加ssl模块</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --with-http_ssl_module</span><br></pre></td></tr></table></figure></div>
+
+<p>4.执行make命令，编译安装包</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure></div>
+
+<p>5.查看objs文件夹下有一个nginx文件，这个就是新版程序，然后备份下之前的nginx</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/local/nginx/sbin/nginx /usr/local/nginx/sbin/nginx.bak</span><br></pre></td></tr></table></figure></div>
+
+<p>6.把编译好的nginx文件替换之前的</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp objs/nginx /usr/local/nginx/sbin/nginx</span><br></pre></td></tr></table></figure></div>
+
+<p>如果无法替换，显示<br><code>cannot create regular file &#39;/usr/local/nginx/sbin/nginx&#39;: Text file busy</code></p>
+<p>执行以下命令查看nginx进程</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef | grep nginx</span><br></pre></td></tr></table></figure></div>
+<p>发现正在运行</p>
+<p>查看进程号，执行以下命令关闭nginx进程</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -QUIT 4809</span><br></pre></td></tr></table></figure></div>
+<p>再次查看nginx进程，可以看到已经关闭，之后再次执行上面的替换命令，就能成功替换了。</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_38.png"
+                     
+                ></p>
+<p>7.最后查看下是否安装成功了</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/nginx</span><br><span class="line">./sbin/nginx -V</span><br></pre></td></tr></table></figure></div>
+<p>显示有ssl模块，那么就证明我们安装成功了，之后就能正常重启nginx了。</p>
+<h2 id="放行443端口"><a href="#放行443端口" class="headerlink" title="放行443端口"></a>放行443端口</h2><p>1.执行以下命令查看443端口是否在运行</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -nplt lgrep 443</span><br></pre></td></tr></table></figure></div>
+<p>可以看到正在运行<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_39.png"
+                      alt="443端口正常运行" title="443端口正常运行"
+                ></p>
+<p>2.添加防火墙端口</p>
+<p>查看防火墙运行状态</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --state</span><br></pre></td></tr></table></figure></div>
+<p>显示<code>running</code>，则进入下一步。</p>
+<p>查看开放的端口</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --list-ports</span><br></pre></td></tr></table></figure></div>
+<p>发现没有443端口。</p>
+<p>添加443端口</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --zone=public --add-port=443/tcp --permanent</span><br></pre></td></tr></table></figure></div>
+<p>显示<code>success</code></p>
+<p>3.重新加载防火墙</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure></div>
+<p>显示<code>success</code></p>
+<p>再次查看开放的端口</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --list-ports</span><br></pre></td></tr></table></figure></div>
+<p>可以看到存在443端口。</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_40.png"
+                      alt="添加防火墙端口" title="添加防火墙端口"
+                ></p>
+<p>4.检查本地443端口加载的HTTPS服务以及证书是否正常，域名名称为你自己的域名</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo | openssl s_client -connect 127.0.0.1:443 -servername invictusqiu.com 2&gt;/dev/null</span><br></pre></td></tr></table></figure></div>
+<p>结果出现<code>SSL-Session</code>表示HTTPS服务正常运行。</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_41.png"
+                      alt="SSL-Session" title="SSL-Session"
+                ></p>
+<p>5.进入ECS安全组策略<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_42.png"
+                      alt="进入ECS安全组策略" title="进入ECS安全组策略"
+                ></p>
+<p>放行TCP协议443端口的入方向请求<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_43.png"
+                      alt="放行443端口" title="放行443端口"
+                ></p>
+<p>6.执行curl命令，查询服务器响应header信息</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -l https://invictusqiu.com</span><br></pre></td></tr></table></figure></div>
+<p>结果显示HTTPS请求可以正常响应。<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_44.png"
+                      alt="响应header信息" title="响应header信息"
+                ></p>
+<p><strong>至此所有工作都完成了！</strong></p>
+<h1 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h1><p>此番部署工作可谓是困难重重，在此途中卡了好多次，甚至一个重启nginx的问题都解决了好久，关于我是怎么知道HTTPS server需要注释掉的呢？在网上翻来覆去搞了半天，看到这个视频：<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://invictusqiu.oss-cn-beijing.aliyuncs.com/blog/DeployBlog/DeployBlog_45.png"
+                     
+                ></p>
+<p>哈哈哈，找个错误CPU都干烧了，结果是这种错误。<br>这种 Error 可谓是读计算机专业家常便饭的事了。  </p>
+<p>最后分享一件事作为本篇文章的结尾：<br>&emsp;&emsp;我一直很钦佩纯粹的人，特别是以具体的目光投射到他身上时也依然纯粹的人，但这样的人只是我心目中的理想化，我也只是追寻着“这类不存在的人”的脚步前进罢了。几天前跟朋友聊天，聊到了跟几年前的自己做对比。假如需要你去做一件短时间内几乎不可能完成的事，以至于需要“燃尽”自己，你还会去做吗？我不可否认，在塑造世界观的那个年纪，现实、电影、小说、电子游戏等都或多或少影响到过我的世界观。<br>&emsp;&emsp;在几年前如果你问我这个问题，我的回答甚至偏向于“会”，但是现在我想还是算了罢，我想这就是现在的自己和几年前自己一个最大的对比。<br>&emsp;&emsp;我并不是否认“会”这个选项，只是它<strong>现在</strong>不是最优解了。所以我为什么钦佩纯粹的人，是因为他们从不会因为“时态”而去改变自身的选择，这也是我为什么仅仅只是追随他们而不是成为他们的原因吧。  </p>
+<blockquote>
+<p>本章一句：<br>以我残躯化烈火。—— Cyberpunk 2077 隐藏结局</p>
+</blockquote>
+
+        </div>
+
+        
+            <div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> 将我的blog部署在云服务器ECS上</li>
+        <li><strong>Author:</strong> 邱海梦旌</li>
+        <li><strong>Created at
+                :</strong> 2023-04-15 15:33:22</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2024-11-10 15:33:23
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://blog.invictusqiu.top/2023/04/15/DeployBlog/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+                
+                    <li class="tag-item mx-0.5">
+                        <a href="/tags/Hexo/">#Hexo</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+
+        
+            <div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+                
+                    <div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+                        <a class="prev"
+                        rel="prev"
+                        href="/2024/05/27/OnlineEducation/"
+                        >
+                            <span class="left arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">在线教育平台</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+                        <a class="next"
+                        rel="next"
+                        href="/2023/03/18/ElectricCharge-zhengfumei/"
+                        >
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">中国大学生计算机设计大赛作品——电荷：正正子与负负美</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+
+        
+            <div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+                <div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://waline.invictusqiu.top/',
+          lang: 'zh-CN',
+          dark: 'body[class~="dark-mode"]',
+          reaction: false,
+          requiredMeta: ['nick', 'mail'],
+          emoji: [],
+          
+          
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+
+    
+        <div class="toc-content-container">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">将我的blog部署在云服务器ECS上</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BA%8F%E8%A8%80"><span class="nav-text">序言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-text">服务器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85MATE%E6%A1%8C%E9%9D%A2%E7%8E%AF%E5%A2%83"><span class="nav-text">安装MATE桌面环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85Git"><span class="nav-text">安装Git</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEssh"><span class="nav-text">配置ssh</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%9F%E6%88%90ssh"><span class="nav-text">生成ssh</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0Github%E7%9A%84SSHkey"><span class="nav-text">更新Github的SSHkey</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%86%E5%85%AC%E9%92%A5%E7%BB%99%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-text">将公钥给服务器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Nginx"><span class="nav-text">Nginx</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85Nginx"><span class="nav-text">安装Nginx</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%90%E8%A1%8CNginx%E5%8F%8A%E6%AC%A2%E8%BF%8E%E9%A1%B5%E9%9D%A2%E9%97%AE%E9%A2%98"><span class="nav-text">运行Nginx及欢迎页面问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%E5%92%8C%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%98%B2%E7%81%AB%E5%A2%99%E9%97%AE%E9%A2%98"><span class="nav-text">Nginx页面无法访问和服务器防火墙问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAblog%E4%BB%93%E5%BA%93%E5%92%8C%E9%83%A8%E7%BD%B2"><span class="nav-text">创建blog仓库和部署</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%BB%93%E5%BA%93"><span class="nav-text">创建仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hooks"><span class="nav-text">hooks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo%E9%85%8D%E7%BD%AE"><span class="nav-text">hexo配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-text">同步到服务器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90"><span class="nav-text">域名解析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSL%E8%AF%81%E4%B9%A6"><span class="nav-text">SSL证书</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96SSL%E8%AF%81%E4%B9%A6"><span class="nav-text">获取SSL证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BDSSL%E8%AF%81%E4%B9%A6"><span class="nav-text">下载SSL证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E8%BE%93%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-text">传输到服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9-server"><span class="nav-text">修改 server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%90%AFNginx%E6%9C%8D%E5%8A%A1"><span class="nav-text">重启Nginx服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%90%AF%E5%A4%B1%E8%B4%A5%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-text">重启失败解决方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%90%AF%E5%A4%B1%E8%B4%A5%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E7%AC%AC%E4%BA%8C%E7%89%88"><span class="nav-text">重启失败解决方案第二版</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%BE%E8%A1%8C443%E7%AB%AF%E5%8F%A3"><span class="nav-text">放行443端口</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E5%B0%BE"><span class="nav-text">结尾</span></a></li></ol>
+
+    </div>
+</div>
+        </div>
+    
+</div>
+
+
+
+                
+
+            </div>
+
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2024</span>
+              -
+            
+            2024&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">邱海梦旌</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        4 posts in total
+                    </span>
+                    
+                        <span>
+                            18.4k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.7.3</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="right-bottom-tools rss flex justify-center items-center">
+                <a class="flex justify-center items-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                <i class="fa-regular fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fa-solid fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa-solid fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+    
+<script src="/js/libs/Swup.min.js"></script>
+
+<script src="/js/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+
+
+
+<script src="/js/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/utils.js" type="module"></script>
+
+<script src="/js/main.js" type="module"></script>
+
+<script src="/js/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/layouts/categoryList.js" type="module"></script>
+
+
+
+    
+<script src="/js/tools/localSearch.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/libs/Typed.min.js"></script>
+
+  
+<script src="/js/plugins/typed.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/libs/mermaid.min.js"></script>
+
+    
+<script src="/js/plugins/mermaid.js"></script>
+
+
+
+
+    
+<script src="/js/libs/minimasonry.min.js"></script>
+
+    
+<script src="/js/plugins/masonry.js" type="module"></script>
+
+
+
+
+
+
+
+    
+<script src="/js/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+</body>
+</html>
