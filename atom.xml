@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Hexo</title>
+  <title>邱海梦旌的博客</title>
   
   
-  <link href="http://example.com/atom.xml" rel="self"/>
+  <link href="https://blog.invictusqiu.top/atom.xml" rel="self"/>
   
-  <link href="http://example.com/"/>
+  <link href="https://blog.invictusqiu.top/"/>
   <updated>2024-11-10T08:15:34.867Z</updated>
-  <id>http://example.com/</id>
+  <id>https://blog.invictusqiu.top/</id>
   
   <author>
-    <name>John Doe</name>
+    <name>邱海梦旌</name>
     
   </author>
   
@@ -18,8 +18,8 @@
   
   <entry>
     <title>在线教育平台</title>
-    <link href="http://example.com/2024/05/27/OnlineEducation/"/>
-    <id>http://example.com/2024/05/27/OnlineEducation/</id>
+    <link href="https://blog.invictusqiu.top/2024/05/27/OnlineEducation/"/>
+    <id>https://blog.invictusqiu.top/2024/05/27/OnlineEducation/</id>
     <published>2024-05-27T11:04:00.000Z</published>
     <updated>2024-11-10T08:15:34.867Z</updated>
     
@@ -30,31 +30,31 @@
     
     
     
-    <category term="项目" scheme="http://example.com/categories/%E9%A1%B9%E7%9B%AE/"/>
+    <category term="项目" scheme="https://blog.invictusqiu.top/categories/%E9%A1%B9%E7%9B%AE/"/>
     
-    <category term="后端" scheme="http://example.com/categories/%E5%90%8E%E7%AB%AF/"/>
+    <category term="后端" scheme="https://blog.invictusqiu.top/categories/%E5%90%8E%E7%AB%AF/"/>
     
-    <category term="前端" scheme="http://example.com/categories/%E5%89%8D%E7%AB%AF/"/>
+    <category term="前端" scheme="https://blog.invictusqiu.top/categories/%E5%89%8D%E7%AB%AF/"/>
     
-    <category term="Java" scheme="http://example.com/categories/Java/"/>
+    <category term="Java" scheme="https://blog.invictusqiu.top/categories/Java/"/>
     
-    <category term="Vue" scheme="http://example.com/categories/%E5%89%8D%E7%AB%AF/Vue/"/>
+    <category term="Vue" scheme="https://blog.invictusqiu.top/categories/%E5%89%8D%E7%AB%AF/Vue/"/>
     
     
-    <category term="Java" scheme="http://example.com/tags/Java/"/>
+    <category term="Java" scheme="https://blog.invictusqiu.top/tags/Java/"/>
     
-    <category term="Spring Boot" scheme="http://example.com/tags/Spring-Boot/"/>
+    <category term="Spring Boot" scheme="https://blog.invictusqiu.top/tags/Spring-Boot/"/>
     
-    <category term="Spring Cloud" scheme="http://example.com/tags/Spring-Cloud/"/>
+    <category term="Spring Cloud" scheme="https://blog.invictusqiu.top/tags/Spring-Cloud/"/>
     
-    <category term="Vue" scheme="http://example.com/tags/Vue/"/>
+    <category term="Vue" scheme="https://blog.invictusqiu.top/tags/Vue/"/>
     
   </entry>
   
   <entry>
     <title>将我的blog部署在云服务器ECS上</title>
-    <link href="http://example.com/2023/04/15/DeployBlog/"/>
-    <id>http://example.com/2023/04/15/DeployBlog/</id>
+    <link href="https://blog.invictusqiu.top/2023/04/15/DeployBlog/"/>
+    <id>https://blog.invictusqiu.top/2023/04/15/DeployBlog/</id>
     <published>2023-04-15T07:33:22.000Z</published>
     <updated>2024-11-10T07:33:23.092Z</updated>
     
@@ -65,17 +65,17 @@
     
     
     
-    <category term="项目" scheme="http://example.com/categories/%E9%A1%B9%E7%9B%AE/"/>
+    <category term="项目" scheme="https://blog.invictusqiu.top/categories/%E9%A1%B9%E7%9B%AE/"/>
     
     
-    <category term="Hexo" scheme="http://example.com/tags/Hexo/"/>
+    <category term="Hexo" scheme="https://blog.invictusqiu.top/tags/Hexo/"/>
     
   </entry>
   
   <entry>
     <title>中国大学生计算机设计大赛作品——电荷：正正子与负负美</title>
-    <link href="http://example.com/2023/03/18/ElectricCharge-zhengfumei/"/>
-    <id>http://example.com/2023/03/18/ElectricCharge-zhengfumei/</id>
+    <link href="https://blog.invictusqiu.top/2023/03/18/ElectricCharge-zhengfumei/"/>
+    <id>https://blog.invictusqiu.top/2023/03/18/ElectricCharge-zhengfumei/</id>
     <published>2023-03-18T14:52:54.000Z</published>
     <updated>2024-11-10T07:34:19.004Z</updated>
     
@@ -86,19 +86,19 @@
     
     
     
-    <category term="生活" scheme="http://example.com/categories/%E7%94%9F%E6%B4%BB/"/>
+    <category term="生活" scheme="https://blog.invictusqiu.top/categories/%E7%94%9F%E6%B4%BB/"/>
     
     
-    <category term="生活" scheme="http://example.com/tags/%E7%94%9F%E6%B4%BB/"/>
+    <category term="生活" scheme="https://blog.invictusqiu.top/tags/%E7%94%9F%E6%B4%BB/"/>
     
-    <category term="人生经历" scheme="http://example.com/tags/%E4%BA%BA%E7%94%9F%E7%BB%8F%E5%8E%86/"/>
+    <category term="人生经历" scheme="https://blog.invictusqiu.top/tags/%E4%BA%BA%E7%94%9F%E7%BB%8F%E5%8E%86/"/>
     
   </entry>
   
   <entry>
     <title>C语言课程设计-校园导游系统</title>
-    <link href="http://example.com/2023/01/16/CampusGuideSystem/"/>
-    <id>http://example.com/2023/01/16/CampusGuideSystem/</id>
+    <link href="https://blog.invictusqiu.top/2023/01/16/CampusGuideSystem/"/>
+    <id>https://blog.invictusqiu.top/2023/01/16/CampusGuideSystem/</id>
     <published>2023-01-16T07:45:38.000Z</published>
     <updated>2024-11-10T08:04:45.289Z</updated>
     
@@ -109,16 +109,16 @@
     
     
     
-    <category term="C++" scheme="http://example.com/categories/C/"/>
+    <category term="C++" scheme="https://blog.invictusqiu.top/categories/C/"/>
     
-    <category term="算法" scheme="http://example.com/categories/%E7%AE%97%E6%B3%95/"/>
+    <category term="算法" scheme="https://blog.invictusqiu.top/categories/%E7%AE%97%E6%B3%95/"/>
     
     
-    <category term="C++" scheme="http://example.com/tags/C/"/>
+    <category term="C++" scheme="https://blog.invictusqiu.top/tags/C/"/>
     
-    <category term="算法" scheme="http://example.com/tags/%E7%AE%97%E6%B3%95/"/>
+    <category term="算法" scheme="https://blog.invictusqiu.top/tags/%E7%AE%97%E6%B3%95/"/>
     
-    <category term="最短路径" scheme="http://example.com/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/"/>
+    <category term="最短路径" scheme="https://blog.invictusqiu.top/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/"/>
     
   </entry>
   
